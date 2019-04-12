@@ -1,9 +1,39 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const User = require('../../models/user')
+const User = require('../../models/user');
+const jwt = require('jsonwebtoken');
+const keys = require('../../config/keys')
 
 router.get("/test", (req, res) => res.json({msg: "This is the test route"}))
+
+router.post("/login", (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    User.findOne({ email })
+        .then(user => {
+            if (!user) {
+                return res.status(400).json({ email: "This user does not exist" })
+            }
+
+            bcrypt.compare(password, user.password)
+                .then(isMatch => {
+                    if (isMatch) {
+                        const payload = { id: user.id, name: user.username }
+
+                        jwt.sign(payload, keys.secretOrKey, { expiresIn: 3600 }, (err, token) => {
+                            res.json({
+                                success: true,
+                                token: 'Bearer ' + token
+                            });
+                        });
+                    } else {
+                        return res.json({ password: "Incorrect password" })
+                    }
+                })
+        })
+})
 
 router.post("/register", (req, res) => {
     User.findOne({ email: req.body.email })
