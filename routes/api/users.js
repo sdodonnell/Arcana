@@ -42,6 +42,7 @@ router.post("/login", (req, res) => {
                     }
                 })
         })
+        .catch(err => console.log(err))
 })
 
 router.post("/register", (req, res) => {
@@ -67,6 +68,8 @@ router.post("/register", (req, res) => {
                 })
             }
         })
+        .catch(err => console.log(err))
+
 })
 
 module.exports = router;
