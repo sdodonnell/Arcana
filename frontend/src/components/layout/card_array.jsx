@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import TarotCard from './TarotCard';
-// import TarotChange from './TarotChange';
+import TarotChange from './TarotChange';
 import Card_1 from '../images/1_Magician.jpg';
 import Card_2 from '../images/2_Priestess.jpg';
 import Card_3 from '../images/3_Empress.jpg';
@@ -276,7 +276,7 @@ class tarotArray extends Component {
                     </div>
                 </div>
             </div>
-            {/* <TarotChange change={this.createArrayHandler.bind(this)}/> */}
+            <TarotChange change={this.createArrayHandler.bind(this)}/>
             </div>
         )
     }
